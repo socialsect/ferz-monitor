@@ -1,5 +1,4 @@
 from flask import Flask
-from threading import Thread
 import os
 import requests
 from bs4 import BeautifulSoup
@@ -7,14 +6,43 @@ import smtplib
 from email.message import EmailMessage
 from datetime import datetime
 
-EMAIL_FROM = os.environ.get("EMAIL_FROM")
-EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_FROM = os.environ["EMAIL_FROM"]
 EMAIL_TO = ["vinayakxsingh21@gmail.com", "farazmirza1110@gmail.com"]
+EMAIL_PASSWORD = os.environ["EMAIL_PASSWORD"]
 
 urls = [
+
     "https://ferzconsulting.com/",
     "https://ferzconsulting.com/about-us/",
-    # ... (rest of the URLs)
+    "https://ferzconsulting.com/services/",
+    "https://ferzconsulting.com/products/",
+    "https://ferzconsulting.com/methodologies/",
+    "https://ferzconsulting.com/articles/",
+    "https://ferzconsulting.com/ip-portfolio/",
+    "https://ferzconsulting.com/articles/measurable-style/",
+    "https://ferzconsulting.com/articles/the-architect-and-the-fire/",
+    "https://ferzconsulting.com/articles/the-question-is-the-lock/",
+    "https://ferzconsulting.com/articles/deepseek-the-trojan-horse-in-open-source-ai/",
+    "https://ferzconsulting.com/articles/transforming-wisdom-into-systems-with-ai/",
+    "https://ferzconsulting.com/articles/the-hidden-traps-of-ai-analysis-a-users-guide-to-better-collaboration/",
+    "https://ferzconsulting.com/articles/ai-at-a-crossroads-apples-findings-and-the-case-for-deterministic-reasoning-systems/",
+    "https://ferzconsulting.com/articles/sovereignty-or-subjugation-the-constitutional-imperative-of-democratic-ai-leadership/",
+    "https://ferzconsulting.com/articles/the-fourth-trap-when-ai-becomes-your-confirming-chorus/",
+    "https://ferzconsulting.com/articles/a-critical-analysis/",
+    "https://ferzconsulting.com/articles/the-darwin-godel-machine-critique-a-critical-analysis-of-self-improving-ai-safety-standards/",
+    "https://ferzconsulting.com/privacy-policy/",
+    "https://ferzconsulting.com/disclaimer/",
+    "https://ferzconsulting.com/contact-us/",
+    "https://ferzconsulting.com/products/lasof-ag/",
+    "https://ferzconsulting.com/methodologies/mrcf/",
+    "https://ferzconsulting.com/methodologies/scm/",
+    "https://ferzconsulting.com/products/lasof/",
+    "https://ferzconsulting.com/services/within-paradigm-improvements/",
+    "https://ferzconsulting.com/services/design-of-ai-governance-models/",
+    "https://ferzconsulting.com/services/lasof-implementation/",
+    "https://ferzconsulting.com/services/ai-enablement-strategy/",
+    "https://ferzconsulting.com/services/ai-consulting/",
+    "https://ferzconsulting.com/services/it-innovation-modernization/",
     "https://ferzconsulting.com/services/strategic-advisory-services/",
 ]
 
@@ -24,8 +52,10 @@ def send_alert(url):
     msg["From"] = EMAIL_FROM
     msg["To"] = ", ".join(EMAIL_TO)
     msg.set_content(
-        f"The page at *{url}* is showing '404 – PAGE NOT FOUND' at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.\n\nFIX KARDO PLEASE"
+        f"The page at *{url}* is showing '404 – PAGE NOT FOUND' "
+        f"at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.\n\nFIX KARDO PLEASE"
     )
+
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login(EMAIL_FROM, EMAIL_PASSWORD)
@@ -51,16 +81,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Ferz Monitor is running. Go to /scan to check pages."
+    return "Ferz Monitor is Live. Go to /scan to check pages."
 
 @app.route("/scan")
 def scan():
     for url in urls:
         check_page(url)
     return "Scan complete."
-
-def run_server():
-    app.run(host="0.0.0.0", port=8080)
-
-if __name__ == "__main__":
-    Thread(target=run_server).start()
