@@ -11,7 +11,7 @@ EMAIL_TO = ["vinayakxsingh21@gmail.com", "farazmirza1110@gmail.com"]
 EMAIL_PASSWORD = os.environ["EMAIL_PASSWORD"]
 
 urls = [
- # "https://ferzconsulting.com/SAMPLE_URL_VINAYAK",
+ "https://ferzconsulting.com/SAMPLE_URL_VINAYAK",
     "https://ferzconsulting.com/",
     "https://ferzconsulting.com/about-us/",
     "https://ferzconsulting.com/services/",
